@@ -11,13 +11,13 @@ function generateMatchSequence(): boolean[] {
   return shuffle(pattern);
 }
 
-export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] {
+export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] { // returning an array of color stimulus objects
   const matchSequence = generateMatchSequence();
-  return matchSequence.map((isMatch) => {
+  return matchSequence.map((isMatch) => { // iterating through match sequence
     let shouldClick: boolean;
     const word = sample(COLORS)!;
     let displayColor: ColorName;
-    
+
     if (isMatch === true) { // if match, being more explicit here for readability 
       displayColor = word; // assigning a randomly selected color
     } else { // if mismatch, we have to set the mismatch
