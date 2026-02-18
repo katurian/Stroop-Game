@@ -27,7 +27,7 @@ export interface ItemResult {
   clicked: boolean;
   responseTimeMs: number | null;
   correct: boolean;
-  allowedTimeMs: number;
+  allottedTimeMs: number;
 }
 
 export type GamePhase =

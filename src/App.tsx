@@ -1,6 +1,7 @@
 import { useGameReducer } from './hooks/useGameReducer';
 import { StartScreen } from './components/StartScreen';
 import { RoundIntro } from './components/RoundIntro';
+import { GamePlay } from './components/GamePlay';
 
 function App() {
   const { state, dispatch } = useGameReducer();
@@ -21,6 +22,10 @@ function App() {
               dispatch({ type: 'SHOW_ITEM', roundIndex: phase.roundIndex, itemIndex: 0 })
             }
           />
+        )}
+
+        {phase.kind === 'playing' && (
+          <GamePlay state={state} dispatch={dispatch} />
         )}
       </div>
     </div>
