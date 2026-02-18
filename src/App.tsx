@@ -2,6 +2,7 @@ import { useGameReducer } from './hooks/useGameReducer';
 import { StartScreen } from './components/StartScreen';
 import { RoundIntro } from './components/RoundIntro';
 import { GamePlay } from './components/GamePlay';
+import { Results } from './components/Results';
 
 function App() {
   const { state, dispatch } = useGameReducer();
@@ -26,6 +27,14 @@ function App() {
 
         {phase.kind === 'playing' && (
           <GamePlay state={state} dispatch={dispatch} />
+        )}
+
+        {phase.kind === 'results' && (
+          <Results
+            results={state.results}
+            roundConfigs={state.rounds}
+            onRestart={() => dispatch({ type: 'RESET' })}
+          />
         )}
       </div>
     </div>
