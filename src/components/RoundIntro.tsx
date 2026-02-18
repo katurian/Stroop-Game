@@ -11,9 +11,6 @@ export function RoundIntro({ config, roundIndex, onReady }: Props) { // destruct
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
       <div>
-        <p className="text-indigo-400 text-sm font-semibold uppercase tracking-widest mb-2">
-          Get Ready
-        </p>
         <h2 className="text-4xl font-extrabold text-white mb-4">
           {config.label}
         </h2>
