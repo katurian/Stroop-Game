@@ -12,7 +12,7 @@ export function StartScreen({ onStart }: Props) {
           Geode Brain Game
         </h1>
         <p className="text-gray-400 text-lg max-w-md">
-          Not sure what to put here.
+          Not sure what to put here. ermmmmm
         </p>
       </div>
 
