@@ -29,6 +29,7 @@ export function GamePlay({ state, dispatch }: Props) {
   const { setStartTime, getResponseTime } = usePlayerStopwatch();
 
   const advanceToNext = useCallback(() => {
+    console.log('advanceToNext:', { roundIndex, itemIndex });
     if (itemIndex < ITEMS_PER_ROUND - 1) { // if we arent out of items for this round
       dispatch({ type: 'SHOW_ITEM', roundIndex, itemIndex: itemIndex + 1 }); // then we increment itemIndex to move to the next item
     } else if (roundIndex < TOTAL_ROUNDS - 1) { // else, if this current round is not the last round
@@ -39,6 +40,7 @@ export function GamePlay({ state, dispatch }: Props) {
   }, [dispatch, roundIndex, itemIndex]);
 
   const recordAndAdvance = useCallback((result: ItemResult) => {
+    console.log('recordAndAdvance:', result);
     dispatch({ type: 'RECORD_RESULT', result });
     setIsTransitioning(true);
     setTimeout(() => {
@@ -52,6 +54,7 @@ export function GamePlay({ state, dispatch }: Props) {
     hasClickedRef.current = true;
 
     const isCorrect = !stimulus.shouldClick;
+    console.log('handleExpire:', { stimulus, isCorrect });
     recordAndAdvance({
       roundIndex,
       itemIndex,
@@ -73,6 +76,7 @@ export function GamePlay({ state, dispatch }: Props) {
   // reset click and start tracking on each new item
   useEffect(() => {
     if (!isPlaying) return;
+    console.log('new item:', { roundIndex, itemIndex, stimulus });
     hasClickedRef.current = false;
     setIsTransitioning(false);
     setStartTime();
@@ -85,6 +89,7 @@ export function GamePlay({ state, dispatch }: Props) {
 
     const responseTimeMs = getResponseTime();
     const isCorrect = stimulus.shouldClick;
+    console.log('handleClick:', { stimulus, isCorrect, responseTimeMs });
     recordAndAdvance({
       roundIndex,
       itemIndex,
@@ -95,6 +100,19 @@ export function GamePlay({ state, dispatch }: Props) {
       allottedTimeMs: allottedTime,
     });
   }, [isTransitioning, cancel, getResponseTime, stimulus, roundIndex, itemIndex, allottedTime, recordAndAdvance]);
+
+  // added keyboard support so space or enter is also supported
+  useEffect(() => {
+    if (!isPlaying) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.code === 'Enter') {
+        e.preventDefault();
+        handleClick();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isPlaying, handleClick]);
 
   if (!isPlaying || !stimulus) return null;
 

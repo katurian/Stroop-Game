@@ -11,6 +11,7 @@ const initialState: GameState = {
 };
 
 function gameReducer(state: GameState, action: GameAction): GameState {
+  console.log('dispatch:', action.type, action);
   switch (action.type) {
     case 'START_GAME':
       return {
