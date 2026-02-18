@@ -1,5 +1,5 @@
 import { shuffle, sample, without } from 'lodash';
-import type { ColorStimulus, ShapeStimulus, Stimulus } from '../types/game';
+import type { ColorName, ShapeName, ColorStimulus, ShapeStimulus, Stimulus } from '../types/game';
 import { COLORS, SHAPES, ITEMS_PER_ROUND } from '../constants/game';
 
 function generateMatchSequence(): boolean[] {
@@ -13,12 +13,22 @@ function generateMatchSequence(): boolean[] {
 
 export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] {
   const matchSequence = generateMatchSequence();
-
   return matchSequence.map((isMatch) => {
+    let shouldClick: boolean;
     const word = sample(COLORS)!;
-    const displayColor = isMatch ? word : sample(without(COLORS, word))!;
-    const wordMatchesColor = word === displayColor;
-    const shouldClick = roundType === 'color-match' ? wordMatchesColor : !wordMatchesColor;
+    let displayColor: ColorName;
+    
+    if (isMatch === true) { // if match, being more explicit here for readability 
+      displayColor = word; // assigning a randomly selected color
+    } else { // if mismatch, we have to set the mismatch
+      displayColor = sample(without(COLORS, word))!; // so we sample again, but excluding original sample
+    }
+  
+    if (roundType === 'color-match') {
+      shouldClick = isMatch; // evaluates to true, we should click
+    } else { // roundType is color-mismatch
+      shouldClick = !isMatch; // evaluates to true, we should click
+    }
 
     return { kind: 'color', word, displayColor, shouldClick };
   });
@@ -29,9 +39,13 @@ export function generateShapeStimuli(): ShapeStimulus[] {
 
   return matchSequence.map((isMatch) => {
     const word = sample(SHAPES)!;
-    const displayShape = isMatch ? word : sample(without(SHAPES, word))!;
-    const wordMatchesShape = word === displayShape;
-    const shouldClick = !wordMatchesShape;
+    let displayShape: ShapeName;
+    if (isMatch) {
+      displayShape = word;
+    } else {
+      displayShape = sample(without(SHAPES, word))!;
+    }
+    const shouldClick = !isMatch;
 
     return { kind: 'shape', word, displayShape, shouldClick };
   });
