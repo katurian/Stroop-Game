@@ -65,7 +65,7 @@ export function Results({ results, roundConfigs, onRestart }: Props) {
           <p className="text-4xl font-extrabold text-indigo-400">
             {score.averageResponseTimeMs !== null ? `${score.averageResponseTimeMs}ms` : '—'}
           </p>
-          <p className="text-gray-400 text-base mt-1">Avg Response</p>
+          <p className="text-gray-400 text-base mt-1">Average Response Time</p>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export function Results({ results, roundConfigs, onRestart }: Props) {
           )}
           {bestTime !== null && (
             <div className="flex justify-between text-base text-gray-400">
-              <span>Fastest avg</span>
+              <span>Fastest average response time</span>
               <span className="font-semibold" style={{ color: '#faea27' }}>{bestTime}ms</span>
             </div>
           )}
