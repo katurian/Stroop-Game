@@ -20,19 +20,7 @@ export const MIN_TIME_MS = 1000;
 export const INTER_ITEM_DELAY_MS = 400;
 
 export const ROUND_CONFIGS: RoundConfig[] = [
-  {
-    type: 'color-match',
-    label: 'Round 1: Color Match',
-    instruction: 'Click if the color of the word matches the word itself.',
-  },
-  {
-    type: 'color-mismatch',
-    label: 'Round 2: Color Mismatch',
-    instruction: 'Click if the color of the word does not match the word itself.',
-  },
-  {
-    type: 'shape-mismatch',
-    label: 'Round 3: Shape Mismatch',
-    instruction: 'Click if the word does not match the shape shown.',
-  },
+  { type: 'color-match', label: 'Round 1: Color Match' },
+  { type: 'color-mismatch', label: 'Round 2: Color Mismatch' },
+  { type: 'shape-mismatch', label: 'Round 3: Shape Mismatch' },
 ];

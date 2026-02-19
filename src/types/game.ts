@@ -39,7 +39,6 @@ export type GamePhase =
 export interface RoundConfig {
   type: RoundType;
   label: string;
-  instruction: string;
 }
 
 export interface GameState {
