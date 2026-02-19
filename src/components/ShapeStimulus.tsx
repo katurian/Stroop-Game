@@ -9,7 +9,7 @@ interface Props {
 export function ShapeStimulus({ word, displayShape }: Props) {
   return (
     <div className="flex flex-col items-center justify-center h-48 gap-4">
-      <span className="text-4xl font-extrabold tracking-wider text-white select-none">
+      <span className="text-5xl font-extrabold tracking-wider text-white select-none">
         {word}
       </span>
       <ShapeSVG shape={displayShape} size={100} />

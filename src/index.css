@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'NintendoDS';
+  src: url('./assets/Nintendo-DS-BIOS.ttf') format('truetype');
+}
+
+* {
+  font-family: 'NintendoDS', monospace;
+}

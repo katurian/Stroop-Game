@@ -118,7 +118,7 @@ export function GamePlay({ state, dispatch }: Props) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      <div className="flex justify-between items-center text-sm text-gray-400">
+      <div className="flex justify-between items-center text-md text-base text-gray-400">
         <span>{roundConfig.label}</span>
         <span>
           {itemIndex + 1} / {ITEMS_PER_ROUND}
@@ -127,8 +127,10 @@ export function GamePlay({ state, dispatch }: Props) {
 
       <TimerBar timeRemaining={timeRemaining} />
 
-      <p className="text-center text-gray-500 text-xs">
-        {roundConfig.instruction}
+      <p className="text-center text-gray-500 text-xl">
+        {roundConfig.type === 'color-match' && 'Click if the color of the word matches the word itself.'}
+        {roundConfig.type === 'color-mismatch' && <>Click if the color of the word does <span className="text-red-500 font-bold">not</span> match the word itself.</>}
+        {roundConfig.type === 'shape-mismatch' && <>Click if the word does <span className="text-red-500 font-bold">not</span> match the shape shown.</>}
       </p>
 
       <div className={`transition-opacity duration-150 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
@@ -141,8 +143,8 @@ export function GamePlay({ state, dispatch }: Props) {
 
       <ClickButton onClick={handleClick} disabled={isTransitioning} />
 
-      <p className="text-center text-gray-600 text-xs">
-        or press <kbd className="px-1.5 py-0.5 bg-gray-800 rounded text-gray-400 text-xs">Space</kbd>
+      <p className="text-center text-gray-600 text-md">
+        or press <kbd className="px-2 py-1 bg-gray-800 rounded text-gray-400 text-md">Space</kbd>
       </p>
     </div>
   );

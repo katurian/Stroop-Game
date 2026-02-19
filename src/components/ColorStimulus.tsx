@@ -10,7 +10,7 @@ export function ColorStimulus({ word, displayColor }: Props) {
   return (
     <div className="flex items-center justify-center h-48">
       <span
-        className="text-6xl font-extrabold tracking-wider select-none"
+        className="text-7xl font-extrabold tracking-wider select-none"
         style={{ color: COLOR_HEX[displayColor] }}
       >
         {word}

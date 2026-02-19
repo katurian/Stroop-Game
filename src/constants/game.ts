@@ -3,12 +3,12 @@ import type { ColorName, ShapeName, RoundConfig } from '../types/game';
 export const COLORS: ColorName[] = ['RED', 'BLUE', 'GREEN', 'YELLOW', 'PURPLE', 'ORANGE'];
 
 export const COLOR_HEX: Record<ColorName, string> = {
-  RED: '#DC2626',
-  BLUE: '#2563EB',
-  GREEN: '#16A34A',
-  YELLOW: '#CA8A04',
-  PURPLE: '#9333EA',
-  ORANGE: '#EA580C',
+  RED: '#ff3e00',
+  BLUE: '#5acbff',
+  GREEN: '#6ccd30',
+  YELLOW: '#faea27',
+  PURPLE: '#bd95ff',
+  ORANGE: '#ffa600',
 };
 
 export const SHAPES: ShapeName[] = ['SQUARE', 'RECTANGLE', 'TRIANGLE'];
