@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { ItemResult, RoundConfig } from '../types/game';
 import { calculateScore } from '../utils/scoring';
 import { ITEMS_PER_ROUND } from '../constants/game';
-import { getBestResponseTime, saveBestResponseTime } from '../utils/storage';
+import { getBestResponseTime, saveBestResponseTime, getBestAccuracy, saveBestAccuracy } from '../utils/storage';
 
 interface Props {
   results: ItemResult[];
@@ -12,27 +12,32 @@ interface Props {
 
 export function Results({ results, roundConfigs, onRestart }: Props) {
   const score = calculateScore(results);
-  const [isNewBest, setIsNewBest] = useState(false);
   const [bestTime, setBestTime] = useState<number | null>(null);
+  const [bestAccuracy, setBestAccuracy] = useState<number | null>(null);
 
   useEffect(() => {
-    const previousBest = getBestResponseTime();
-    const currentTime = score.averageResponseTimeMs;
-
-    if (currentTime !== null) {
-      if (previousBest === null || currentTime < previousBest) {
-        saveBestResponseTime(currentTime);
-        setBestTime(currentTime);
-        setIsNewBest(true);
+    // update best response time
+    const previousBestTime = getBestResponseTime();
+    if (score.averageResponseTimeMs !== null) {
+      if (previousBestTime === null || score.averageResponseTimeMs < previousBestTime) {
+        saveBestResponseTime(score.averageResponseTimeMs);
+        setBestTime(score.averageResponseTimeMs);
       } else {
-        setBestTime(previousBest);
-        setIsNewBest(false);
+        setBestTime(previousBestTime);
       }
     } else {
-      setBestTime(previousBest);
-      setIsNewBest(false);
+      setBestTime(previousBestTime);
     }
-  }, [score.averageResponseTimeMs]);
+
+    // update best accuracy
+    const previousBestAccuracy = getBestAccuracy();
+    if (previousBestAccuracy === null || score.accuracyPercent > previousBestAccuracy) {
+      saveBestAccuracy(score.accuracyPercent);
+      setBestAccuracy(score.accuracyPercent);
+    } else {
+      setBestAccuracy(previousBestAccuracy);
+    }
+  }, [score.averageResponseTimeMs, score.accuracyPercent]);
 
   const roundScores = roundConfigs.map((config, i) => {
     const roundResults = results.filter(result => result.roundIndex === i);
@@ -64,18 +69,6 @@ export function Results({ results, roundConfigs, onRestart }: Props) {
         </div>
       </div>
 
-      {isNewBest && (
-        <p className="text-2xl font-bold" style={{ color: '#6ccd30' }}>
-          New personal best!
-        </p>
-      )}
-
-      {!isNewBest && bestTime !== null && (
-        <p className="text-lg text-gray-400">
-          Personal best: <span className="font-semibold" style={{ color: '#faea27' }}>{bestTime}ms</span>
-        </p>
-      )}
-
       <div className="text-gray-300 text-base">
         {score.correctCount} / {score.totalItems} correct
       </div>
@@ -88,6 +81,24 @@ export function Results({ results, roundConfigs, onRestart }: Props) {
           </div>
         ))}
       </div>
+
+      {(bestAccuracy !== null || bestTime !== null) && (
+        <div className="w-full max-w-xs bg-gray-800/50 rounded-xl p-4 space-y-2">
+          <p className="text-sm font-semibold uppercase tracking-widest text-gray-500 mb-2">Personal Bests</p>
+          {bestAccuracy !== null && (
+            <div className="flex justify-between text-base text-gray-400">
+              <span>Best accuracy</span>
+              <span className="font-semibold" style={{ color: '#faea27' }}>{bestAccuracy}%</span>
+            </div>
+          )}
+          {bestTime !== null && (
+            <div className="flex justify-between text-base text-gray-400">
+              <span>Fastest avg</span>
+              <span className="font-semibold" style={{ color: '#faea27' }}>{bestTime}ms</span>
+            </div>
+          )}
+        </div>
+      )}
 
       <button
         onClick={onRestart}
