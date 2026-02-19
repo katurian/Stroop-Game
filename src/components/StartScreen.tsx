@@ -24,8 +24,26 @@ export function StartScreen({ onStart }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">
+      {!playerName && (
+        <div className="flex gap-3 items-center">
+          <input
+            type="text"
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleSaveName(); }}
+            placeholder="Enter your name"
+            className="px-4 py-3 text-lg rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-indigo-400 focus:outline-none"
+          />
+          <button
+            onClick={handleSaveName}
+            className="px-5 py-3 text-lg font-bold rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors cursor-pointer"
+          >
+            Save
+          </button>
+        </div>
+      )}
       {playerName && (
-        <p className="text-3xl font-bold" style={{ color: '#6ccd30' }}>
+        <p className="text-3xl font-bold text-indigo-400">
           Hello {playerName}!
         </p>
       )}
@@ -50,31 +68,6 @@ export function StartScreen({ onStart }: Props) {
           <span className="font-semibold text-indigo-400">Round 3:</span> Click if the word does <span className="text-red-500 font-bold">not</span> match the shape shown.
         </p>
       </div>
-
-      {bestTime !== null && (
-        <p className="text-xl font-semibold" style={{ color: '#faea27' }}>
-          Personal best: {bestTime}ms
-        </p>
-      )}
-
-      {!playerName && (
-        <div className="flex gap-3 items-center">
-          <input
-            type="text"
-            value={nameInput}
-            onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleSaveName(); }}
-            placeholder="Enter your name"
-            className="px-4 py-3 text-lg rounded-lg bg-gray-800 text-white border border-gray-600 focus:border-indigo-400 focus:outline-none"
-          />
-          <button
-            onClick={handleSaveName}
-            className="px-5 py-3 text-lg font-bold rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors cursor-pointer"
-          >
-            Save
-          </button>
-        </div>
-      )}
 
       <button
         onClick={onStart}
