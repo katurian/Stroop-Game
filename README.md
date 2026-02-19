@@ -1,4 +1,4 @@
-# Geode Brain Game
+# Stroop Game
 
 A Stroop test built with React, TypeScript, and Vite.
 
