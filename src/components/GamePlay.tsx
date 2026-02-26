@@ -24,7 +24,7 @@ export function GamePlay({ state, dispatch }: Props) {
   const allottedTime = getAllottedTimeMs(itemIndex);
   const roundConfig = state.rounds[roundIndex];
 
-  const hasClickedRef = useRef(false);
+  const itemHandledRef = useRef(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const { setStartTime, getResponseTime } = usePlayerStopwatch();
 
@@ -50,8 +50,8 @@ export function GamePlay({ state, dispatch }: Props) {
   }, [dispatch, advanceToNext]);
 
   const handleExpire = useCallback(() => { // if player never clicks
-    if (hasClickedRef.current || !stimulus) return;
-    hasClickedRef.current = true;
+    if (itemHandledRef.current || !stimulus) return;
+    itemHandledRef.current = true;
 
     const isCorrect = !stimulus.shouldClick;
     console.log('handleExpire:', { stimulus, isCorrect });
@@ -77,14 +77,14 @@ export function GamePlay({ state, dispatch }: Props) {
   useEffect(() => {
     if (!isPlaying) return;
     console.log('new item:', { roundIndex, itemIndex, stimulus });
-    hasClickedRef.current = false;
+    itemHandledRef.current = false;
     setIsTransitioning(false);
     setStartTime();
   }, [isPlaying, roundIndex, itemIndex, setStartTime]);
 
   const handleClick = useCallback(() => { // if player clicks
-    if (hasClickedRef.current || isTransitioning || !stimulus) return;
-    hasClickedRef.current = true;
+    if (itemHandledRef.current || isTransitioning || !stimulus) return;
+    itemHandledRef.current = true;
     cancel();
 
     const responseTimeMs = getResponseTime();
