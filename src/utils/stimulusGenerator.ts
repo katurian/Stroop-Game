@@ -11,7 +11,7 @@ function generateMatchSequence(): boolean[] {
   return shuffle(sequence);
 }
 
-export function generateColorStimuli(roundType: 'color-match' | 'color-mbool'): ColorStimulus[] { // returning an array of color stimulus objects
+export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] { // returning an array of color stimulus objects
   const matchSequence = generateMatchSequence();
   return matchSequence.map((bool) => { // iterating through match sequence
     let shouldClick: boolean;
@@ -24,8 +24,8 @@ export function generateColorStimuli(roundType: 'color-match' | 'color-mbool'): 
       displayColor = sample(without(COLORS, word))!; // so we sample again, but excluding original sample
     }
   
-    if (roundType === 'color-match') {
-      shouldClick = bool; // we should click when word matches color
+    if (roundType === 'color-match') { 
+      shouldClick = bool; // we should click when word matches color because round is color-match
     } else { // roundType is color-mismatch
       shouldClick = !bool; // bool is true, but it is a mismatch round, so we should NOT click, !bool = false
     }
