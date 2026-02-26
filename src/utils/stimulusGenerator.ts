@@ -4,11 +4,11 @@ import { COLORS, SHAPES, ITEMS_PER_ROUND } from '../constants/game';
 
 function generateMatchSequence(): boolean[] {
   const half = Math.floor(ITEMS_PER_ROUND / 2);
-  const pattern = [
+  const sequence = [
     ...Array(half).fill(true) as boolean[],
     ...Array(ITEMS_PER_ROUND - half).fill(false) as boolean[],
   ];
-  return shuffle(pattern);
+  return shuffle(sequence);
 }
 
 export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] { // returning an array of color stimulus objects
