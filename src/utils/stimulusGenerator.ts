@@ -54,7 +54,7 @@ export function generateShapeStimuli(): ShapeStimulus[] {
 export function generateAllStimuli(): Stimulus[][] {
   return [
     generateColorStimuli('color-match'),
-    generateColorStimuli('color-mbool'),
+    generateColorStimuli('color-mismatch'),
     generateShapeStimuli(),
   ];
 }
