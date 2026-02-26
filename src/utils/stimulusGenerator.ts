@@ -20,14 +20,14 @@ export function generateColorStimuli(roundType: 'color-match' | 'color-mbool'): 
 
     if (bool === true) { // if match, being more explicit here for readability 
       displayColor = word; // assigning a randomly selected color
-    } else { // if mbool, we have to set the mbool
+    } else { // if not a match (false), we have to set the mismatch
       displayColor = sample(without(COLORS, word))!; // so we sample again, but excluding original sample
     }
   
     if (roundType === 'color-match') {
-      shouldClick = bool; // evaluates to true, we should click
-    } else { // roundType is color-mbool
-      shouldClick = !bool; // evaluates to true, we should click
+      shouldClick = bool; // we should click when word matches color
+    } else { // roundType is color-mismatch
+      shouldClick = !bool; // bool is true, but it is a mismatch round, so we should NOT click, !bool = false
     }
 
     return { kind: 'color', word, displayColor, shouldClick };
