@@ -11,23 +11,23 @@ function generateMatchSequence(): boolean[] {
   return shuffle(sequence);
 }
 
-export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'): ColorStimulus[] { // returning an array of color stimulus objects
+export function generateColorStimuli(roundType: 'color-match' | 'color-mbool'): ColorStimulus[] { // returning an array of color stimulus objects
   const matchSequence = generateMatchSequence();
-  return matchSequence.map((isMatch) => { // iterating through match sequence
+  return matchSequence.map((bool) => { // iterating through match sequence
     let shouldClick: boolean;
     const word = sample(COLORS)!;
     let displayColor: ColorName;
 
-    if (isMatch === true) { // if match, being more explicit here for readability 
+    if (bool === true) { // if match, being more explicit here for readability 
       displayColor = word; // assigning a randomly selected color
-    } else { // if mismatch, we have to set the mismatch
+    } else { // if mbool, we have to set the mbool
       displayColor = sample(without(COLORS, word))!; // so we sample again, but excluding original sample
     }
   
     if (roundType === 'color-match') {
-      shouldClick = isMatch; // evaluates to true, we should click
-    } else { // roundType is color-mismatch
-      shouldClick = !isMatch; // evaluates to true, we should click
+      shouldClick = bool; // evaluates to true, we should click
+    } else { // roundType is color-mbool
+      shouldClick = !bool; // evaluates to true, we should click
     }
 
     return { kind: 'color', word, displayColor, shouldClick };
@@ -37,15 +37,15 @@ export function generateColorStimuli(roundType: 'color-match' | 'color-mismatch'
 export function generateShapeStimuli(): ShapeStimulus[] {
   const matchSequence = generateMatchSequence();
 
-  return matchSequence.map((isMatch) => {
+  return matchSequence.map((bool) => {
     const word = sample(SHAPES)!;
     let displayShape: ShapeName;
-    if (isMatch) {
+    if (bool) {
       displayShape = word;
     } else {
       displayShape = sample(without(SHAPES, word))!;
     }
-    const shouldClick = !isMatch;
+    const shouldClick = !bool;
 
     return { kind: 'shape', word, displayShape, shouldClick };
   });
@@ -54,7 +54,7 @@ export function generateShapeStimuli(): ShapeStimulus[] {
 export function generateAllStimuli(): Stimulus[][] {
   return [
     generateColorStimuli('color-match'),
-    generateColorStimuli('color-mismatch'),
+    generateColorStimuli('color-mbool'),
     generateShapeStimuli(),
   ];
 }
