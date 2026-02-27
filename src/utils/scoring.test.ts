@@ -42,3 +42,16 @@ test('calculateScore returns null average when no items were clicked', () => {
   expect(score.averageResponseTimeMs).toBeNull();
   expect(score.accuracyPercent).toBe(50);
 });
+
+
+test('calculateScore returns null average when no items were clicked', () => {
+  const results: ItemResult[] = [
+    makeResult(false, null, true),
+    makeResult(false, null, false),
+  ];
+
+  const score = calculateScore(results);
+
+  expect(score.averageResponseTimeMs).toBeNull();
+  expect(score.accuracyPercent).toBe(50);
+});
